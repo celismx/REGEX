@@ -11,13 +11,14 @@ my $ok = 0;
 my $no = 0;
 while(<$f>) {
   chomp;
-  if(m/^(\d+)\t(\w+)\t(.+?)\t(20\d\d\-\d\d\-\d\d)\s(\d\d:\d\d:\d\d)\t(\d+)\t(\d+).*$/) {
+  if(m/^([\d]{10,})\t(\w+)\t(.+?)\t(20\d\d\-\d\d\-\d\d)\s(\d\d:\d\d:\d\d)\t(\d+)\t(\d+).*$/) {
     printf("INSERT INTO users VALUES(%d, '%s', '%s', 'perl');\n", $1, $2, $3,);
     $ok++;
   } else {
     printf("NO: %s\n", $_) if $debug;
     $no++
   }
+  last if $ok > 10;
 }
 close($f);
 
